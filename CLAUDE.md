@@ -102,6 +102,8 @@ When pronounceable mode is enabled:
 - Theme colors defined in `src/styles/theme.ts`
 - Global styles in `src/styles/GlobalStyle.ts`
 - Component-specific styles co-located in `components/*/styles.ts`
+- 所有代码内的注释必须使用英文
+- 保持代码的国际化兼容性
 
 ## Important Notes
 
