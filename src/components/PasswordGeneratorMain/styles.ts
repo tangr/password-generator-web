@@ -105,7 +105,7 @@ export const ResultCopyToClipboardButton = styled.button`
 
 export const PasswordLengthInput = styled.input.attrs({
   type: 'number',
-  min: '5',
+  min: '4',
   max: '1024',
 })`
   font-size: 18px;
