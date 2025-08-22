@@ -5,7 +5,7 @@
   "dependencies": {
     "@password-generator/check-strength": "^2.0.4",
     "@password-generator/package": "latest",
-    "cypress": "5.0.0",
+    "cypress": "13.17.0",
     "polished": "^3.6.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: docker/app.dockerfile
+      platforms:
+        - linux/amd64
     environment:
       - PORT=3000
       - NODE_ENV=development
@@ -21,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: docker/e2e.dockerfile
+      platforms:
+        - linux/amd64
     environment:
       - CI=1
       - CYPRESS_baseUrl=http://localhost:3000
