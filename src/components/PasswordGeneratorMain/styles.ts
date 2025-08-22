@@ -29,7 +29,18 @@ export const ResultContainer = styled.div`
   height: 30px;
   width: 95%;
 `;
-export const ResultSpan = styled.input`
+export const ResultSpan = styled.input.attrs({
+  type: 'text',
+  autoComplete: 'new-password',
+  'data-lpignore': 'true',
+  'data-form-type': 'other',
+  'data-1p-ignore': 'true',
+  'data-bwignore': 'true',
+  'data-dashlane-rid': '',
+  role: 'presentation',
+  name: 'password-display-readonly',
+  id: 'password-display-readonly',
+})`
   background-color: ${(props) => lighten(0.1, props.theme.blackBlue)};
   color: #fff;
   font-size: 18px;
