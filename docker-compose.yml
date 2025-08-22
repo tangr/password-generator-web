@@ -6,13 +6,15 @@ services:
       dockerfile: docker/app.dockerfile
       platforms:
         - linux/amd64
+    ports:
+      - '3000:3000'
     environment:
       - PORT=3000
       - NODE_ENV=development
+      - NODE_OPTIONS=--openssl-legacy-provider
     volumes:
       - .:/app
-    restart: always
-    network_mode: host
+    restart: unless-stopped
     stdin_open: true
     command: yarn start
 
@@ -30,5 +32,4 @@ services:
       - CYPRESS_baseUrl=http://localhost:3000
     volumes:
       - ./cypress:/app/cypress
-    network_mode: host
     command: npx cypress run
