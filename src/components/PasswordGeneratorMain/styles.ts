@@ -20,17 +20,17 @@ export const Title = styled.h2`
 export const ResultContainer = styled.div`
   background-color: ${(props) => props.theme.blackBlue};
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
   position: relative;
   font-size: 18px;
   letter-spacing: 1px;
   padding: 10px 8px;
-  height: 30px;
+  min-height: 30px;
   width: 95%;
+  gap: 8px;
 `;
-export const ResultSpan = styled.input.attrs({
-  type: 'text',
+export const ResultSpan = styled.textarea.attrs({
   autoComplete: 'new-password',
   'data-lpignore': 'true',
   'data-form-type': 'other',
@@ -40,6 +40,7 @@ export const ResultSpan = styled.input.attrs({
   role: 'presentation',
   name: 'password-display-readonly',
   id: 'password-display-readonly',
+  rows: 1,
 })`
   background-color: ${(props) => lighten(0.1, props.theme.blackBlue)};
   color: #fff;
@@ -47,9 +48,15 @@ export const ResultSpan = styled.input.attrs({
   appearance: none;
   outline: none;
   border: none;
-  max-height: 23.2px;
-  min-width: calc(100% - 35px);
-  max-width: calc(100% - 40px);
+  resize: none;
+  flex: 1;
+  min-width: 0;
+  min-height: 30px;
+  padding: 8px 4px;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  font-family: monospace;
+  line-height: 1.2;
   &::selection {
     background-color: ${(props) => props.theme.gray};
   }
@@ -86,11 +93,9 @@ export const ResultCopyToClipboardButton = styled.button`
   justify-content: center;
   border: 0 solid ${(props) => props.theme.secondaryBlue};
   font-size: 20px;
-  position: absolute;
-  top: 5px;
-  right: 5px;
   height: 40px;
   width: 40px;
+  flex-shrink: 0;
   background-color: ${(props) => props.theme.secondaryBlue};
   cursor: pointer;
 `;
