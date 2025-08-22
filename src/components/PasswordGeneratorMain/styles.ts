@@ -40,7 +40,8 @@ export const ResultSpan = styled.textarea.attrs({
   role: 'presentation',
   name: 'password-display-readonly',
   id: 'password-display-readonly',
-  rows: 1,
+  rows: 5,
+  cols: 20,
 })`
   background-color: ${(props) => lighten(0.1, props.theme.blackBlue)};
   color: #fff;
@@ -51,12 +52,14 @@ export const ResultSpan = styled.textarea.attrs({
   resize: none;
   flex: 1;
   min-width: 0;
-  min-height: 30px;
-  padding: 8px 4px;
+  min-height: 110px;
+  max-height: 150px;
+  padding: 10px 8px;
   word-break: break-all;
   overflow-wrap: break-word;
-  font-family: monospace;
-  line-height: 1.2;
+  font-family: 'Courier New', monospace;
+  line-height: 1.4;
+  overflow-y: auto;
   &::selection {
     background-color: ${(props) => props.theme.gray};
   }
