@@ -6,6 +6,7 @@ services:
       dockerfile: docker/app.dockerfile
       platforms:
         - linux/amd64
+        - linux/arm64
     ports:
       - '3000:3000'
     environment:
@@ -27,6 +28,7 @@ services:
       dockerfile: docker/e2e.dockerfile
       platforms:
         - linux/amd64
+        - linux/arm64
     environment:
       - CI=1
       - CYPRESS_baseUrl=http://localhost:3000
