@@ -12,7 +12,7 @@ npm start
 yarn start
 ```
 
-Runs the app at http://localhost:3000
+Runs the app at <http://localhost:3000>
 
 ### Build
 
