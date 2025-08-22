@@ -5,7 +5,7 @@ import { lighten } from 'polished';
 export const Container = styled.form`
   background-color: ${(props) => props.theme.mainBlue};
   box-shadow: 0px 2px 10px ${(props) => props.theme.gray};
-  padding: 18px;
+  padding: 18px 32px;
   border-radius: 20px;
   width: 90%;
   max-width: 800px;
@@ -25,10 +25,10 @@ export const ResultContainer = styled.div`
   position: relative;
   font-size: 18px;
   letter-spacing: 1px;
-  padding: 10px 8px;
+  padding: 10px 16px;
   min-height: 30px;
   width: 95%;
-  gap: 8px;
+  gap: 12px;
 `;
 export const ResultSpan = styled.textarea.attrs({
   autoComplete: 'new-password',
@@ -54,7 +54,7 @@ export const ResultSpan = styled.textarea.attrs({
   min-width: 0;
   min-height: 110px;
   max-height: 150px;
-  padding: 10px 8px;
+  padding: 10px 16px;
   word-break: break-all;
   overflow-wrap: break-word;
   font-family: 'Courier New', monospace;
@@ -110,7 +110,7 @@ export const PasswordLengthInput = styled.input.attrs({
 })`
   font-size: 18px;
   width: 100px;
-  padding: 4px 8px;
+  padding: 4px 12px;
   text-align: left;
   &::-webkit-inner-spin-button {
     width: 15px;
@@ -128,6 +128,7 @@ export const DefaultInitialTextInput = styled.input.attrs({
 })`
   font-size: 18px;
   width: 100px;
+  padding: 4px 12px;
 `;
 
 export const CheckBox = styled.input.attrs({
@@ -147,6 +148,7 @@ export const Setting = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 15px 0;
+  padding: 0 8px;
 `;
 
 export const GeneratePasswordButton = styled.button`
@@ -154,7 +156,7 @@ export const GeneratePasswordButton = styled.button`
   background-color: ${(props) => props.theme.secondaryBlue};
   outline-color: ${(props) => props.theme.secondaryBlue};
   color: ${(props) => props.theme.white};
-  padding: 10px;
+  padding: 10px 20px;
   font-size: 20px;
   margin-top: 10px;
   cursor: pointer;
