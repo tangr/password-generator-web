@@ -109,6 +109,9 @@ export const PasswordLengthInput = styled.input.attrs({
   max: '1024',
 })`
   font-size: 18px;
+  width: 100px;
+  padding: 4px 8px;
+  text-align: left;
   &::-webkit-inner-spin-button {
     width: 15px;
     height: 35px;
