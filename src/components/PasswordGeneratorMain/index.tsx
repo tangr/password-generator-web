@@ -1,4 +1,10 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  FormEvent,
+  useRef,
+  useCallback,
+} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,6 +33,7 @@ const PasswordGeneratorMain: React.FC = () => {
   const [password, setPassword] = useState('');
   const [passwordStrength, setPasswordStrength] =
     useState<CheckStrengthResult | null>(null);
+  const hasGeneratedInitialPassword = useRef(false);
 
   const [preferences, setPreferences] = useState({
     initialText: '',
@@ -72,7 +79,7 @@ const PasswordGeneratorMain: React.FC = () => {
   };
 
   // Update URL parameters based on current preferences
-  const updateUrlParams = (prefs: typeof preferences) => {
+  const updateUrlParams = useCallback((prefs: typeof preferences) => {
     const params = new URLSearchParams();
 
     params.set('length', prefs.passwordLength.toString());
@@ -85,7 +92,31 @@ const PasswordGeneratorMain: React.FC = () => {
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({}, '', newUrl);
-  };
+  }, []);
+
+  // Generate password handler with useCallback
+  const generatePasswordHandler = useCallback(() => {
+    try {
+      const passwordGenerated = generatePassword({
+        length: preferences.passwordLength,
+        initialText: preferences.initialText,
+        useChars: {
+          lowercase: preferences.lowercase,
+          numbers: preferences.numbers,
+          symbols: preferences.symbols,
+          uppercase: preferences.uppercase,
+          pronounceable: preferences.pronounceable,
+        },
+      });
+      if (passwordGenerated) {
+        setPassword(passwordGenerated);
+        setPasswordStrength(checkStrength(passwordGenerated));
+        updateUrlParams(preferences);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  }, [preferences, updateUrlParams]);
 
   // Load preferences from URL parameters on component mount
   useEffect(() => {
@@ -94,6 +125,14 @@ const PasswordGeneratorMain: React.FC = () => {
       setPreferences((prevPrefs) => ({ ...prevPrefs, ...urlParams }));
     }
   }, []);
+
+  // Auto-generate password on page load/refresh
+  useEffect(() => {
+    if (!hasGeneratedInitialPassword.current) {
+      generatePasswordHandler();
+      hasGeneratedInitialPassword.current = true;
+    }
+  }, [generatePasswordHandler]);
 
   const handleCopyToClipboard = () => {
     if (password) {
@@ -127,27 +166,7 @@ const PasswordGeneratorMain: React.FC = () => {
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    try {
-      const passwordGenerated = generatePassword({
-        length: preferences.passwordLength,
-        initialText: preferences.initialText,
-        useChars: {
-          lowercase: preferences.lowercase,
-          numbers: preferences.numbers,
-          symbols: preferences.symbols,
-          uppercase: preferences.uppercase,
-          pronounceable: preferences.pronounceable,
-        },
-      });
-      if (passwordGenerated) {
-        setPassword(passwordGenerated);
-        setPasswordStrength(checkStrength(passwordGenerated));
-        // Update URL with current preferences
-        updateUrlParams(preferences);
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    }
+    generatePasswordHandler();
   };
 
   return (
