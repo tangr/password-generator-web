@@ -28,6 +28,7 @@
   ],
   "extends": ["prettier", "airbnb"],
   "rules": {
+    "operator-linebreak": ["error", "after"],
     "prettier/prettier": "error",
     "no-unused-expressions": "off",
     "no-unused-vars": "off",
