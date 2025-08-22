@@ -34,7 +34,7 @@ const PasswordGeneratorMain: React.FC = () => {
   const [passwordStrength, setPasswordStrength] =
     useState<CheckStrengthResult | null>(null);
   const hasGeneratedInitialPassword = useRef(false);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLTextAreaElement>(null);
 
   const [preferences, setPreferences] = useState({
     initialText: '',
