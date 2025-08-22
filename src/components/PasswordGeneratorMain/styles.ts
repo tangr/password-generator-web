@@ -7,7 +7,8 @@ export const Container = styled.form`
   box-shadow: 0px 2px 10px ${(props) => props.theme.gray};
   padding: 18px;
   border-radius: 20px;
-  width: 80%;
+  width: 90%;
+  max-width: 800px;
 `;
 
 export const Title = styled.h2`
