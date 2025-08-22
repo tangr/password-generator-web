@@ -34,6 +34,7 @@ const PasswordGeneratorMain: React.FC = () => {
   const [passwordStrength, setPasswordStrength] =
     useState<CheckStrengthResult | null>(null);
   const hasGeneratedInitialPassword = useRef(false);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const [preferences, setPreferences] = useState({
     initialText: '',
@@ -112,6 +113,13 @@ const PasswordGeneratorMain: React.FC = () => {
         setPassword(passwordGenerated);
         setPasswordStrength(checkStrength(passwordGenerated));
         updateUrlParams(preferences);
+        // Auto-select the new password text
+        setTimeout(() => {
+          if (passwordInputRef.current) {
+            passwordInputRef.current.focus();
+            passwordInputRef.current.select();
+          }
+        }, 0);
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -134,11 +142,25 @@ const PasswordGeneratorMain: React.FC = () => {
     }
   }, [generatePasswordHandler]);
 
+  // Auto-focus and select all text in password input on component mount
+  useEffect(() => {
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
+      passwordInputRef.current.select();
+    }
+  }, []);
+
   const handleCopyToClipboard = () => {
     if (password) {
       navigator.clipboard
         .writeText(password)
         .then(() => toast.success('Password was copied to your clipboard!'));
+    }
+  };
+
+  const handlePasswordInputClick = () => {
+    if (passwordInputRef.current) {
+      passwordInputRef.current.select();
     }
   };
 
@@ -174,7 +196,13 @@ const PasswordGeneratorMain: React.FC = () => {
       <Title>Password Generator</Title>
 
       <ResultContainer>
-        <ResultSpan data-test-id="resultSpan" value={password} readOnly />
+        <ResultSpan
+          data-test-id="resultSpan"
+          value={password}
+          readOnly
+          ref={passwordInputRef}
+          onClick={handlePasswordInputClick}
+        />
         <ResultCopyToClipboardButton
           type="button"
           data-test-id="clipboard"
