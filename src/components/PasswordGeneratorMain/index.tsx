@@ -126,21 +126,73 @@ const PasswordGeneratorMain: React.FC = () => {
     }
   }, [preferences, updateUrlParams]);
 
-  // Load preferences from URL parameters on component mount
+  // Load preferences from URL parameters and auto-generate password on component mount
   useEffect(() => {
     const urlParams = parseUrlParams();
-    if (Object.keys(urlParams).length > 0) {
-      setPreferences((prevPrefs) => ({ ...prevPrefs, ...urlParams }));
-    }
-  }, []);
+    const defaultPrefs = {
+      initialText: '',
+      passwordLength: 20,
+      pronounceable: false,
+      uppercase: true,
+      lowercase: true,
+      numbers: true,
+      symbols: false,
+    };
 
-  // Auto-generate password on page load/refresh
-  useEffect(() => {
+    let updatedPrefs = defaultPrefs;
+
+    if (Object.keys(urlParams).length > 0) {
+      updatedPrefs = { ...defaultPrefs, ...urlParams };
+      setPreferences(updatedPrefs);
+    }
+
+    // Auto-generate password after preferences are set
     if (!hasGeneratedInitialPassword.current) {
-      generatePasswordHandler();
+      // Use updated preferences directly for password generation
+      try {
+        const passwordGenerated = generatePassword({
+          length: updatedPrefs.passwordLength,
+          initialText: updatedPrefs.initialText,
+          useChars: {
+            lowercase: updatedPrefs.lowercase,
+            numbers: updatedPrefs.numbers,
+            symbols: updatedPrefs.symbols,
+            uppercase: updatedPrefs.uppercase,
+            pronounceable: updatedPrefs.pronounceable,
+          },
+        });
+        if (passwordGenerated) {
+          setPassword(passwordGenerated);
+          setPasswordStrength(checkStrength(passwordGenerated));
+
+          // Update URL parameters inline
+          const params = new URLSearchParams();
+          params.set('length', updatedPrefs.passwordLength.toString());
+          if (updatedPrefs.initialText) {
+            params.set('initialText', updatedPrefs.initialText);
+          }
+          params.set('pronounceable', updatedPrefs.pronounceable.toString());
+          params.set('uppercase', updatedPrefs.uppercase.toString());
+          params.set('lowercase', updatedPrefs.lowercase.toString());
+          params.set('numbers', updatedPrefs.numbers.toString());
+          params.set('symbols', updatedPrefs.symbols.toString());
+          const newUrl = `${window.location.pathname}?${params.toString()}`;
+          window.history.pushState({}, '', newUrl);
+
+          // Auto-select the new password text
+          setTimeout(() => {
+            if (passwordInputRef.current) {
+              passwordInputRef.current.focus();
+              passwordInputRef.current.select();
+            }
+          }, 0);
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+      }
       hasGeneratedInitialPassword.current = true;
     }
-  }, [generatePasswordHandler]);
+  }, []);
 
   // Auto-focus and select all text in password input on component mount
   useEffect(() => {
