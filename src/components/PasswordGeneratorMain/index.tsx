@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,6 +41,59 @@ const PasswordGeneratorMain: React.FC = () => {
   const [cachedSettings, setCachedSettings] = useState({
     ...preferences,
   });
+
+  // Parse URL parameters and return preferences object
+  const parseUrlParams = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const params: any = {};
+
+    const length = urlParams.get('length');
+    if (length) params.passwordLength = parseInt(length, 10);
+
+    const initialText = urlParams.get('initialText');
+    if (initialText) params.initialText = initialText;
+
+    const pronounceable = urlParams.get('pronounceable');
+    if (pronounceable) params.pronounceable = pronounceable === 'true';
+
+    const uppercase = urlParams.get('uppercase');
+    if (uppercase) params.uppercase = uppercase === 'true';
+
+    const lowercase = urlParams.get('lowercase');
+    if (lowercase) params.lowercase = lowercase === 'true';
+
+    const numbers = urlParams.get('numbers');
+    if (numbers) params.numbers = numbers === 'true';
+
+    const symbols = urlParams.get('symbols');
+    if (symbols) params.symbols = symbols === 'true';
+
+    return params;
+  };
+
+  // Update URL parameters based on current preferences
+  const updateUrlParams = (prefs: typeof preferences) => {
+    const params = new URLSearchParams();
+
+    params.set('length', prefs.passwordLength.toString());
+    if (prefs.initialText) params.set('initialText', prefs.initialText);
+    params.set('pronounceable', prefs.pronounceable.toString());
+    params.set('uppercase', prefs.uppercase.toString());
+    params.set('lowercase', prefs.lowercase.toString());
+    params.set('numbers', prefs.numbers.toString());
+    params.set('symbols', prefs.symbols.toString());
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+  };
+
+  // Load preferences from URL parameters on component mount
+  useEffect(() => {
+    const urlParams = parseUrlParams();
+    if (Object.keys(urlParams).length > 0) {
+      setPreferences((prevPrefs) => ({ ...prevPrefs, ...urlParams }));
+    }
+  }, []);
 
   const handleCopyToClipboard = () => {
     if (password) {
@@ -89,6 +142,8 @@ const PasswordGeneratorMain: React.FC = () => {
       if (passwordGenerated) {
         setPassword(passwordGenerated);
         setPasswordStrength(checkStrength(passwordGenerated));
+        // Update URL with current preferences
+        updateUrlParams(preferences);
       }
     } catch (error: any) {
       toast.error(error.message);
