@@ -110,8 +110,10 @@ export const PasswordLengthInput = styled.input.attrs({
 })`
   font-size: 18px;
   width: 100px;
-  padding: 4px 12px;
+  height: 28px;
+  padding: 0 12px;
   text-align: left;
+  box-sizing: border-box;
   &::-webkit-inner-spin-button {
     width: 15px;
     height: 35px;
@@ -128,7 +130,9 @@ export const DefaultInitialTextInput = styled.input.attrs({
 })`
   font-size: 18px;
   width: 100px;
-  padding: 4px 12px;
+  height: 28px;
+  padding: 0 12px;
+  box-sizing: border-box;
 `;
 
 export const CheckBox = styled.input.attrs({
@@ -137,10 +141,11 @@ export const CheckBox = styled.input.attrs({
   position: relative;
   top: 0;
   left: 0;
-  height: 19px;
-  width: 19px;
+  height: 20px;
+  width: 20px;
   background-color: ${(props) => props.theme.ice};
   cursor: pointer;
+  margin: 4px 0;
 `;
 
 export const Setting = styled.div`
