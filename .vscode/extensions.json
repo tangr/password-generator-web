@@ -2,12 +2,14 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "bradlc.vscode-tailwindcss",
     "styled-components.vscode-styled-components",
     "ms-vscode.vscode-typescript-next",
     "formulahendry.auto-rename-tag",
     "christian-kohler.path-intellisense",
     "ms-vscode.vscode-json",
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "bierner.markdown-preview-github-styles",
     "cypress-io.cypress-helper",
     "humao.rest-client"
   ]
