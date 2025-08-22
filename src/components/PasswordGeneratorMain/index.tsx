@@ -37,10 +37,10 @@ const PasswordGeneratorMain: React.FC = () => {
 
   const [preferences, setPreferences] = useState({
     initialText: '',
-    passwordLength: 6,
+    passwordLength: 20,
     pronounceable: false,
     uppercase: true,
-    lowercase: false,
+    lowercase: true,
     numbers: true,
     symbols: false,
   });
