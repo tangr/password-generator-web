@@ -6,13 +6,16 @@ import PasswordGeneratorMain from './components/PasswordGeneratorMain';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
 
+const StyledThemeProvider = ThemeProvider as any;
+const StyledGlobalStyle = GlobalStyle as any;
+
 const App: React.FC = () => (
-  <ThemeProvider theme={theme}>
+  <StyledThemeProvider theme={theme}>
     <div className="App">
       <PasswordGeneratorMain />
     </div>
-    <GlobalStyle />
-  </ThemeProvider>
+    <StyledGlobalStyle />
+  </StyledThemeProvider>
 );
 
 export default App;
